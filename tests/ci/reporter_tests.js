@@ -500,21 +500,31 @@ describe('test reporters', function() {
         runDuration: 42
       });
 
+      reporter.report('firefox', {
+        name: 'it nests other prefixes too',
+        passed: true,
+        runDuration: 42
+      });
+
       reporter.finish();
       var output = stream.read().toString();
 
-      assert.match(output, /##teamcity\[testSuiteFinished name='testem\.suite' duration='(\d+(\.\d+)?)'\]/);
-      assert.match(output, /##teamcity\[testStarted name='phantomjs - it does <cool> "cool" \|'cool\|' stuff']/);
-      assert.match(output, /##teamcity\[testFinished name='phantomjs - it does <cool> "cool" \|'cool\|' stuff' duration='1234']/);
-      assert.match(output, /##teamcity\[testStarted name='phantomjs - it skips stuff']/);
-      assert.match(output, /##teamcity\[testIgnored name='phantomjs - it skips stuff' message='pending']/);
-      assert.match(output, /##teamcity\[testFinished name='phantomjs - it skips stuff']/);
-      assert.match(output, /##teamcity\[testStarted name='phantomjs - it handles failures']/);
-      assert.match(output, /##teamcity\[testFailed name='phantomjs - it handles failures' message='foo' details='bar']/);
-      assert.match(output, /##teamcity\[testFinished name='phantomjs - it handles failures']/);
-      assert.match(output, /##teamcity\[testStarted name='phantomjs - it handles undefined errors']/);
-      assert.match(output, /##teamcity\[testFailed name='phantomjs - it handles undefined errors' message='' details='']/);
-      assert.match(output, /##teamcity\[testFinished name='phantomjs - it handles undefined errors' duration='42']/);
+      assert.match(output, /##teamcity\[testSuiteStarted name='phantomjs']/);
+      assert.match(output, /##teamcity\[testSuiteFinished name='phantomjs']/);
+      assert.match(output, /##teamcity\[testStarted name='it does <cool> "cool" \|'cool\|' stuff']/);
+      assert.match(output, /##teamcity\[testFinished name='it does <cool> "cool" \|'cool\|' stuff' duration='1234']/);
+      assert.match(output, /##teamcity\[testStarted name='it skips stuff']/);
+      assert.match(output, /##teamcity\[testIgnored name='it skips stuff' message='pending']/);
+      assert.match(output, /##teamcity\[testFinished name='it skips stuff']/);
+      assert.match(output, /##teamcity\[testStarted name='it handles failures']/);
+      assert.match(output, /##teamcity\[testFailed name='it handles failures' message='foo' details='bar']/);
+      assert.match(output, /##teamcity\[testFinished name='it handles failures']/);
+      assert.match(output, /##teamcity\[testStarted name='it handles undefined errors']/);
+      assert.match(output, /##teamcity\[testFailed name='it handles undefined errors' message='' details='']/);
+      assert.match(output, /##teamcity\[testFinished name='it handles undefined errors' duration='42']/);
+
+      assert.match(output, /##teamcity\[testSuiteStarted name='firefox']/);
+      assert.match(output, /##teamcity\[testSuiteFinished name='firefox']/);
     });
   });
 });
